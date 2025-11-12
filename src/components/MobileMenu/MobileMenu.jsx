@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import * as Dialog from '@radix-ui/react-dialog';
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import * as Dialog from "@radix-ui/react-dialog";
 
-import { QUERIES, WEIGHTS } from '../../constants';
+import { QUERIES, WEIGHTS } from "../../constants";
 
-import UnstyledButton from '../UnstyledButton';
-import Icon from '../Icon';
-import VisuallyHidden from '../VisuallyHidden';
+import UnstyledButton from "../UnstyledButton";
+import Icon from "../Icon";
+import VisuallyHidden from "../VisuallyHidden";
 
 const MobileMenu = ({ isOpen, onDismiss }) => {
   return (
@@ -24,12 +24,24 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
           </VisuallyHidden>
           <Filler />
           <Nav>
-            <NavLink href="/sale">Sale</NavLink>
-            <NavLink href="/new">New&nbsp;Releases</NavLink>
-            <NavLink href="/men">Men</NavLink>
-            <NavLink href="/women">Women</NavLink>
-            <NavLink href="/kids">Kids</NavLink>
-            <NavLink href="/collections">Collections</NavLink>
+            <NavLink href="/sale" index={0}>
+              Sale
+            </NavLink>
+            <NavLink href="/new" index={1}>
+              New&nbsp;Releases
+            </NavLink>
+            <NavLink href="/men" index={2}>
+              Men
+            </NavLink>
+            <NavLink href="/women" index={3}>
+              Women
+            </NavLink>
+            <NavLink href="/kids" index={4}>
+              Kids
+            </NavLink>
+            <NavLink href="/collections" index={5}>
+              Collections
+            </NavLink>
           </Nav>
           <Footer>
             <SubLink href="/terms">Terms and Conditions</SubLink>
@@ -42,10 +54,31 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   );
 };
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
+
 const Overlay = styled(Dialog.Overlay)`
   position: fixed;
   inset: 0;
   background: var(--color-backdrop);
+  animation: ${fadeIn} 500ms;
+`;
+
+const contentSlidIn = keyframes`
+	from {
+		transform: translateX(100%);
+	}
+
+	to {
+		transform: translateX(0);
+	}
 `;
 
 const Content = styled(Dialog.Content)`
@@ -59,6 +92,7 @@ const Content = styled(Dialog.Content)`
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
+  animation: ${contentSlidIn} 400ms cubic-bezier(0.12, 0.88, 0.56, 0.96) both;
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -66,6 +100,7 @@ const CloseButton = styled(UnstyledButton)`
   top: 10px;
   right: 0;
   padding: 16px;
+  animation: ${fadeIn} 300ms ease 300ms both;
 `;
 
 const Nav = styled.nav`
@@ -80,6 +115,7 @@ const NavLink = styled.a`
   text-decoration: none;
   font-size: 1.125rem;
   text-transform: uppercase;
+  animation: ${fadeIn} 300ms ease ${(props) => 300 + 50 * props.index}ms both;
 
   &:first-of-type {
     color: var(--color-secondary);
@@ -95,6 +131,7 @@ const Footer = styled.footer`
   flex-direction: column;
   gap: 14px;
   justify-content: flex-end;
+  animation: ${fadeIn} 300ms ease 300ms both;
 `;
 
 const SubLink = styled.a`
